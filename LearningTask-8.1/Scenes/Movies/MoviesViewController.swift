@@ -10,6 +10,7 @@ import UIKit
 class MoviesViewController: UICollectionViewController {
     
     var moviesAPI: MoviesAPI?
+    var movieSessionsAPI: MovieSessionsAPI?
     
     var movies: [Movie] = [] {
         didSet {
@@ -19,6 +20,7 @@ class MoviesViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyTheme()
         
         // Do any additional setup after loading the view.
         loadMovies()
@@ -27,6 +29,18 @@ class MoviesViewController: UICollectionViewController {
     func loadMovies() {
         guard let moviesAPI = moviesAPI else { return }
         movies = moviesAPI.loadMovies()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "seeMovieSessionsSegue" else { return }
+        
+        guard let cell = sender as? MovieViewCell,
+              let destinationController = segue.destination as? MovieSessionsViewController else {
+            fatalError("Não foi possível executar a segue: \(segue.identifier!)")
+        }
+        
+        destinationController.movie = cell.movie
+        destinationController.API = movieSessionsAPI
     }
 
 }

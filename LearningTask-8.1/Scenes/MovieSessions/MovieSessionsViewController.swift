@@ -40,6 +40,17 @@ class MovieSessionsViewController: UITableViewController {
         guard let API = API else { return }
         sessions = API.getSessionBy(movie)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "seePurchaseSettingsSegue" else { return }
+        
+        guard let cell = sender as? SessionViewCell,
+              let destinationController = segue.destination as? PurchaseSettingsViewController else {
+            fatalError("Não foi possível executar a segue: \(segue.identifier!)")
+        }
+        
+        destinationController.movieSession = cell.movieSession
+    }
 
 }
 

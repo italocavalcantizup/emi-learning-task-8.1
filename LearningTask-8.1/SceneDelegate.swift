@@ -20,9 +20,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window!.overrideUserInterfaceStyle = .dark
         
         let moviesAPI = MoviesAPI()
+        let movieSessionsAPI = MovieSessionsAPI()
         
-        let homeController = window!.rootViewController as! MoviesViewController
+        let homeController = (window!.rootViewController as! UINavigationController).topViewController as! MoviesViewController
         homeController.moviesAPI = moviesAPI
+        homeController.movieSessionsAPI = movieSessionsAPI
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
